@@ -2,33 +2,29 @@ package com.gzeinnumer.mylibsavedinstancestate.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import com.gzeinnumer.mylibsavedinstancestate.R;
+import com.gzeinnumer.mylibsavedinstancestate.MenuActivity;
 import com.gzeinnumer.mylibsavedinstancestate.StateUI;
 import com.gzeinnumer.mylibsavedinstancestate.StateUIBuilder;
 import com.gzeinnumer.mylibsavedinstancestate.activity.MainActivity;
+import com.gzeinnumer.mylibsavedinstancestate.databinding.FragmentHomeBinding;
 
 public class HomeFragment extends Fragment {
     public static final String TAG = "State_UI";
 
-    TextView edUsername;
-    TextView edPass;
-    Button btnLogin, btnCancel;
+    private FragmentHomeBinding binding;
+
     StateUI stateUI;
 
     public HomeFragment() {
-        // Required empty public constructor
     }
 
     public static HomeFragment newInstance() {
@@ -38,35 +34,30 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false);
+        binding = FragmentHomeBinding.inflate(inflater, container, false);
+        return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Toast.makeText(requireContext(), "Fragment_onCreate", Toast.LENGTH_SHORT).show();
 
-        edUsername = view.findViewById(R.id.ed_username);
-        edPass = view.findViewById(R.id.ed_pass);
-        btnLogin = view.findViewById(R.id.btn_login);
-        btnCancel = view.findViewById(R.id.btn_cancel);
+        Toast.makeText(requireContext(), "Fragment_onViewCreated", Toast.LENGTH_SHORT).show();
 
         stateUI = StateUIBuilder.Build(MainActivity.class, requireContext());
 
-        btnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                stateUI.clearState();
-                startActivity(new Intent(requireContext(), MainActivity.class));
-            }
+        binding.btnClearBack.setOnClickListener(v -> {
+            stateUI.clearState();
+            startActivity(new Intent(requireContext(), MenuActivity.class));
         });
 
-        btnCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                requireActivity().finish();
-            }
+        binding.btnSaveBack.setOnClickListener(v -> {
+            startActivity(new Intent(requireContext(), MenuActivity.class));
+            requireActivity().finish();
+        });
+
+        binding.btnSaveClose.setOnClickListener(v -> {
+            requireActivity().finishAffinity();
         });
     }
 
@@ -74,8 +65,8 @@ public class HomeFragment extends Fragment {
     public void onPause() {
         super.onPause();
         Toast.makeText(requireContext(), "Fragment_onPause", Toast.LENGTH_SHORT).show();
-        stateUI.addView("edUsername", edUsername.getText().toString());
-        stateUI.addView("edPass", edPass.getText().toString());
+        stateUI.addView("binding.edUsername", binding.edUsername.getText().toString());
+        stateUI.addView("binding.edPass", binding.edPass.getText().toString());
         stateUI.saveState();
     }
 
@@ -83,7 +74,7 @@ public class HomeFragment extends Fragment {
     public void onResume() {
         super.onResume();
         Toast.makeText(requireContext(), "Fragment_onResume", Toast.LENGTH_SHORT).show();
-        edUsername.setText(stateUI.getValue("edUsername"));
-        edPass.setText(stateUI.getValue("edPass"));
+        binding.edUsername.setText(stateUI.getValue("binding.edUsername"));
+        binding.edPass.setText(stateUI.getValue("binding.edPass"));
     }
 }

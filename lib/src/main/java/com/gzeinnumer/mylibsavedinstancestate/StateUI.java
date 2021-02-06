@@ -2,15 +2,16 @@ package com.gzeinnumer.mylibsavedinstancestate;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.util.Base64;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import java.lang.reflect.Field;
-import java.util.Arrays;
+import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
-import java.util.List;
 
 public class StateUI {
     public static final String TAG = "State_UI";
@@ -53,6 +54,11 @@ public class StateUI {
         data.put(String.valueOf(object), value);
     }
 
+    public void addView(Object object, BitmapDrawable value) {
+        Bitmap bitmap = value.getBitmap();
+        data.put(String.valueOf(object), bitMapToString(bitmap));
+    }
+
     public String getValue(Object object) {
         try {
             String str = pref.getString(clss, null);
@@ -65,8 +71,20 @@ public class StateUI {
         }
     }
 
+    public Bitmap getValueBitmap(Object object) {
+        try {
+            String str = pref.getString(clss, null);
+            java.lang.reflect.Type type = new TypeToken<HashMap<String, String>>() {
+            }.getType();
+            HashMap<String, String> testHashMap2 = gson.fromJson(str, type);
+            return stringToBitMap(testHashMap2.get(String.valueOf(object)));
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
     public void saveState() {
-        if (!isClear){
+        if (!isClear) {
             mEditor = pref.edit();
             mEditor.putString(clss, gson.toJson(data)).apply();
         }
@@ -74,5 +92,22 @@ public class StateUI {
 
     public boolean getState() {
         return pref.getString(clss, null) != null;
+    }
+
+    public String bitMapToString(Bitmap bitmap) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        byte[] b = baos.toByteArray();
+        return Base64.encodeToString(b, Base64.DEFAULT);
+    }
+
+    public Bitmap stringToBitMap(String encodedString) {
+        try {
+            byte[] encodeByte = Base64.decode(encodedString, Base64.DEFAULT);
+            return BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+        } catch (Exception e) {
+            e.getMessage();
+            return null;
+        }
     }
 }

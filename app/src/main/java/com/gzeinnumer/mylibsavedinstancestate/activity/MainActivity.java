@@ -1,69 +1,61 @@
 package com.gzeinnumer.mylibsavedinstancestate.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.gzeinnumer.mylibsavedinstancestate.R;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.gzeinnumer.mylibsavedinstancestate.MenuActivity;
 import com.gzeinnumer.mylibsavedinstancestate.StateUI;
 import com.gzeinnumer.mylibsavedinstancestate.StateUIBuilder;
+import com.gzeinnumer.mylibsavedinstancestate.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
     public static final String TAG = "State_UI";
 
-    TextView edUsername;
-    TextView edPass;
-    Button btnLogin, btnCancel;
     StateUI stateUI;
+    private ActivityMainBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        Toast.makeText(this, "Main_onCreate", Toast.LENGTH_SHORT).show();
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
-        edUsername = findViewById(R.id.ed_username);
-        edPass = findViewById(R.id.ed_pass);
-        btnLogin = findViewById(R.id.btn_login);
-        btnCancel = findViewById(R.id.btn_cancel);
+        Toast.makeText(this, "Activity_onCreate", Toast.LENGTH_SHORT).show();
 
         stateUI = StateUIBuilder.Build(MainActivity.class, getApplicationContext());
 
-        btnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                stateUI.clearState();
-                startActivity(new Intent(getApplicationContext(), MainActivity.class));
-            }
+        binding.btnClearBack.setOnClickListener(v -> {
+            stateUI.clearState();
+            startActivity(new Intent(getApplicationContext(), MenuActivity.class));
         });
 
-        btnCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
+        binding.btnSaveBack.setOnClickListener(v -> {
+            startActivity(new Intent(getApplicationContext(), MenuActivity.class));
+            finish();
+        });
+
+        binding.btnSaveClose.setOnClickListener(v -> {
+            finishAffinity();
         });
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        Toast.makeText(this, "Main_onPause", Toast.LENGTH_SHORT).show();
-        stateUI.addView("edUsername", edUsername.getText().toString());
-        stateUI.addView("edPass", edPass.getText().toString());
+        Toast.makeText(this, "Activity_onPause", Toast.LENGTH_SHORT).show();
+        stateUI.addView("binding.edUsername", binding.edUsername.getText().toString());
+        stateUI.addView("binding.edPass", binding.edPass.getText().toString());
         stateUI.saveState();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        Toast.makeText(this, "Main_onResume", Toast.LENGTH_SHORT).show();
-        edUsername.setText(stateUI.getValue("edUsername"));
-        edPass.setText(stateUI.getValue("edPass"));
+        Toast.makeText(this, "Activity_onResume", Toast.LENGTH_SHORT).show();
+        binding.edUsername.setText(stateUI.getValue("binding.edUsername"));
+        binding.edPass.setText(stateUI.getValue("binding.edPass"));
     }
 }
