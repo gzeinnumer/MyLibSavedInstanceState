@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://github.com/gzeinnumer/MyLibUtils/blob/master/preview/bg.jpg"/>
+  <img src="http://7-themes.com/data_images/out/4/6780515-cold-background.jpg"/>
 </p>
 
 <h1 align="center">
@@ -51,12 +51,12 @@ dependencies {
 
 ---
 # Tech stack and 3rd library
-- []()
+- [SharedPreferences](https://developer.android.com/training/data-storage/shared-preferences?hl=id)
+- [Hashmap](https://developer.android.com/reference/java/util/HashMap)
 
 ---
 # Usage
 
-#
 ### **File To Base64.**
 File Image From Path and convert to `Base64` with format `data:image/jpeg;base64,` + `....kagsfkajha`
 > **Java**
