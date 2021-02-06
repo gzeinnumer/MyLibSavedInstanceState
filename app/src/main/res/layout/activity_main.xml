@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,11 +9,11 @@
     tools:context=".activity.MainActivity">
 
     <TextView
-        android:textSize="20sp"
-        android:textAlignment="center"
-        android:text="Example Activity"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:text="Example Activity"
+        android:textAlignment="center"
+        android:textSize="20sp" />
 
     <EditText
         android:id="@+id/ed_username"
@@ -38,7 +37,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Login" />
+            android:text="Login And Clear State"
+            android:textAllCaps="false" />
 
         <Button
             android:id="@+id/btn_cancel"
@@ -46,7 +46,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_weight="1"
-            android:text="Cancel" />
+            android:text="Cancel And Save State"
+            android:textAllCaps="false" />
     </LinearLayout>
 
 </LinearLayout>
