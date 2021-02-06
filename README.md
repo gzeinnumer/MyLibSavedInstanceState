@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="http://7-themes.com/data_images/out/4/6780515-cold-background.jpg"/>
+  <img src="https://cdn.wallpapersafari.com/9/40/TP9KsW.jpg"/>
 </p>
 
 <h1 align="center">
