@@ -8,7 +8,7 @@ public class CustomToast {
 
     public CustomToast(Context applicationContext, String msg) {
         Toast toast = Toast.makeText(applicationContext, msg, Toast.LENGTH_SHORT);
-        toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
+        toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 300);
         toast.show();
     }
 }

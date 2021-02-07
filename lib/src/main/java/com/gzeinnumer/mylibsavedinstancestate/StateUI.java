@@ -16,8 +16,6 @@ import java.util.HashMap;
 import java.util.List;
 
 public class StateUI {
-    public static final String TAG = "State_UI";
-
     private final String clss;
     private final Gson gson;
     private final HashMap<Object, String> data;
@@ -36,7 +34,7 @@ public class StateUI {
     /**
      * Use this method in onPause() to add view that you want to keep in StateUI
      *
-     * @param objectName name of variable in String as KEY to get value in function onResume.
+     * @param objectName name of variable in String as KEY to get value in function onResume().
      * @param value      value that you want to save with Integer type.
      */
     public void addView(Object objectName, int value) {
@@ -47,7 +45,7 @@ public class StateUI {
     /**
      * Use this method in onPause() to add view that you want to keep in StateUI
      *
-     * @param objectName name of variable in String as KEY to get value in function onResume.
+     * @param objectName name of variable in String as KEY to get value in function onResume().
      * @param value      value that you want to save with float type.
      */
     public void addView(Object objectName, float value) {
@@ -57,7 +55,7 @@ public class StateUI {
     /**
      * Use this method in onPause() to add view that you want to keep in StateUI
      *
-     * @param objectName name of variable in String as KEY to get value in function onResume.
+     * @param objectName name of variable in String as KEY to get value in function onResume().
      * @param value      value that you want to save with double type.
      */
     public void addView(Object objectName, double value) {
@@ -67,7 +65,7 @@ public class StateUI {
     /**
      * Use this method in onPause() to add view that you want to keep in StateUI
      *
-     * @param objectName name of variable in String as KEY to get value in function onResume.
+     * @param objectName name of variable in String as KEY to get value in function onResume().
      * @param value      value that you want to save with String type.
      */
     public void addView(Object objectName, String value) {
@@ -76,9 +74,9 @@ public class StateUI {
 
     /**
      * Use this method in onPause() to add view that you want to keep in StateUI
-     * Note : put this function on Try Catch
+     * Note : put this function inside Try Catch
      *
-     * @param objectName name of variable in String as KEY to get value in function onResume.
+     * @param objectName name of variable in String as KEY to get value in function onResume().
      * @param value      value that you want to save with BitmapDrawable type.
      *                   <p>
      *                   if you never change preview of your ImageView catch will triggered
@@ -91,7 +89,7 @@ public class StateUI {
     /**
      * Use this method in onPause() to add view that you want to keep in StateUI
      *
-     * @param objectName        name of variable in String as KEY to get value in function onResume.
+     * @param objectName        name of variable in String as KEY to get value in function onResume().
      * @param listStateReceiver value that you want to save with List<T> type.
      *                          <p>
      *                          if you never change preview of your ImageView catch will triggered
@@ -141,10 +139,15 @@ public class StateUI {
     }
 
     /**
-     * Use this method in onResume() to to get value that you set from RecyclerView with List<T> type
+     * <p>Use this method in onResume() to get value that you set from RecyclerView with List<T> type</p>
+     * <p></p>
+     * <p>setListModel(){ </p>
+     * <p>&nbsp;&nbsp;&nbsp;return new TypeToken&#60;List&#60;ModelPojo&#62;&#62;(){}.getType();</p>
+     * <p>}</p>
+     * <p>listCallBack() to get List from StateUI.</p>
      *
-     * @param objectName        name of variable in String as KEY to get value from function onPause.
-     * @param listStateCallBack use this callBack to set your Model of List with setListModel() and getList from state with listCallBack().
+     * @param objectName        name of variable in String as KEY to get value from function onPause().
+     * @param listStateCallBack use this callBack to set your ModelPojo and getList
      */
     public <T> void getValueList(Object objectName, ListStateCallBack<T> listStateCallBack) {
         try {
@@ -164,7 +167,7 @@ public class StateUI {
     /**
      * Use this method to add view that you want to keep value from RecyclerView with List<T> type
      *
-     * @param objectName name of variable in String as KEY to get value from function onPause.
+     * @param objectName name of variable in String as KEY to get value from function onPause().
      * @return BitMap if Success / null if you never change ImageView preview.
      */
     public Bitmap getValueBitmap(Object objectName) {
@@ -180,7 +183,7 @@ public class StateUI {
     }
 
     /**
-     * Use this method to clear all State from your view
+     * Use this method to clear all StateUI from your view
      */
     public void clearState() {
         isClear = true;
