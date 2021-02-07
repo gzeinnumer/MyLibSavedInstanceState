@@ -98,6 +98,9 @@ public class RecyclerViewActivity extends AppCompatActivity {
     }
 
     private void initAdapter() {
+        // I am using MyOwnlibrary to make AdapterRecyclerView
+        // ReadMore on https://github.com/gzeinnumer/MyLibRecyclerViewAdapterBuilder
+        // and also support MultiType and Filter Data
         AdapterCreator<MyModel> adapter = new AdapterBuilder<MyModel>(R.layout.item_rv)
                 .setList(list)
                 .onBind(new BindViewHolder<MyModel>() {

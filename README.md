@@ -163,6 +163,8 @@ Preview:
 
 #
 ### Fragment StateUI
+
+Seems like [Activity StateUI](#activity-stateui). but you need to use `onViewCreated` and `Override` `public onPauseonResume()` and `public onResume()`.
 ```java
 public class HomeFragment extends Fragment {
 
@@ -214,6 +216,8 @@ You can save `Bitmap` from your `ImageView`. Use function `addView()` to set val
 ```java
 public class ImageActivity extends AppCompatActivity {
 
+    private StateUI stateUI;
+
     ...
 
     @Override
@@ -261,6 +265,8 @@ You can save `List` to StateUI. Use function `addViewList(KEY, ListStateReceiver
 public class RecyclerViewActivity extends AppCompatActivity {
     private List<MyModel> list = new ArrayList<>();
     private StateUI stateUI;
+
+    ...
 
     @Override
     protected void onPause() {
