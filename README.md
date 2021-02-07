@@ -304,6 +304,7 @@ public class RecyclerViewActivity extends AppCompatActivity {
 
 Here is Full Code
 [RecyclerViewActivity.java](https://github.com/gzeinnumer/MyLibSavedInstanceState/blob/master/app/src/main/java/com/gzeinnumer/mylibsavedinstancestate/recyclerView/RecyclerViewActivity.java)
+ & [MyModel.java](https://github.com/gzeinnumer/MyLibSavedInstanceState/blob/master/app/src/main/java/com/gzeinnumer/mylibsavedinstancestate/recyclerView/MyModel.java)
  & [activity_recycler_view.xml](https://github.com/gzeinnumer/MyLibSavedInstanceState/blob/master/app/src/main/res/layout/activity_recycler_view.xml)
 
 Preview:
@@ -311,6 +312,25 @@ Preview:
 |![](https://github.com/gzeinnumer/MyLibSavedInstanceState/blob/master/preview/example13.gif)|![](https://github.com/gzeinnumer/MyLibSavedInstanceState/blob/master/preview/example14.gif)|![](https://github.com/gzeinnumer/MyLibSavedInstanceState/blob/master/preview/example15.gif)|![](https://github.com/gzeinnumer/MyLibSavedInstanceState/blob/master/preview/example16.gif)|
 |---|---|---|---|
 |Data lost in `onBackPressed()`|Data lost in `onDestroy()`|Data keep in `onBackPressed()`|Data keep in `onDestroy()`|
+
+#
+### Variable With StateUI
+```java
+//onPause()
+String data = "sentThisDataToState";
+stateUI.addView("data", data);
+
+//onResume()
+String data = stateUI.getValue("data");
+```
+```java
+//onPause()
+stateUI.addView("vm.data.getValue()", vm.data.getValue());
+
+//onResume()
+String data = stateUI.getValue("vm.data.getValue()");
+vm.setData(data);
+```
 
 ---
 # Example Code/App
