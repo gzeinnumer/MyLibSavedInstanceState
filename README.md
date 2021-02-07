@@ -55,6 +55,8 @@ dependencies {
 - [x] [Image StateUI](#image-stateui)
 - [x] [Recyclerview StateUI](#recyclerview-stateui)
 - [x] [Variable With StateUI](#variable-with-stateui)
+- [x] [Clear Value StateUI onStop](#clear-value-stateui-onstop)
+- [x] [Clear All StateUI](#clear-all-stateui)
 
 ---
 # Tech stack and 3rd library
@@ -337,6 +339,14 @@ protected void onStop() {
     super.onStop();
     stateUI.clearState();
 }
+```
+
+#
+### Clear All StateUI
+
+Call this function every where, this function will Clear All Of Your StateUI that you have been save before
+```java
+stateUI.destroyStateUI();
 ```
 
 ---
