@@ -60,6 +60,7 @@ dependencies {
 Save UI State like `SavedInstanceState` with `Bundle`. but with this library, you can keep data/value in View as long as you want,
 or you can **Clear Cache** from your app in `Application Settings`. State will keep save even when you `kill` your app process.
 
+#
 ### Activity StateUI
 #### Make instance from StateUI
 > **Java**
@@ -74,13 +75,11 @@ public class MainActivity extends AppCompatActivity {
         ...
 
         stateUI = StateUIBuilder.Build(MainActivity.class, getApplicationContext());
-
-        ...
     }
 }
 ```
 #
-#### Add Value To Keep
+#### Add Value To Keep On StateUI
 
 Use function `addView(KEY, VALUE)` on `onPause()` add value that you want to keep and use `saveState()` to submit your value. When `onPause()` called StateUI will keep your value.
 ```java
@@ -141,25 +140,153 @@ Preview:
 |---|---|---|---|
 |Data lost in `onBackPressed()`|Data lost in `onDestroy()`|Data keep in `onBackPressed()`|Data keep in `onDestroy()`|
 
-# Fragment
+#
+### Fragment StateUI
+```java
+public class HomeFragment extends Fragment {
+
+    private StateUI stateUI;
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+
+        ...
+
+        stateUI = StateUIBuilder.Build(HomeFragment.class, requireContext());
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        stateUI.addView("binding.edUsername", binding.edUsername.getText().toString());
+        stateUI.addView("binding.edPass", binding.edPass.getText().toString());
+        stateUI.saveState();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (stateUI.getState()) {
+            String userName = stateUI.getValue("binding.edUsername");
+            binding.edUsername.setText(userName);
+            String pass = stateUI.getValue("binding.edPass");
+            binding.edPass.setText(pass);
+        }
+    }
+}
+```
+
+Here is Full Code
+[HomeFragment.java](https://github.com/gzeinnumer/MyLibSavedInstanceState/blob/master/app/src/main/java/com/gzeinnumer/mylibsavedinstancestate/fragment/HomeFragment.java)
+[fragment_home.xml](https://github.com/gzeinnumer/MyLibSavedInstanceState/blob/master/app/src/main/res/layout/fragment_home.xml)
+
+Preview:
+
 |![](https://github.com/gzeinnumer/MyLibSavedInstanceState/blob/master/preview/example5.gif)|![](https://github.com/gzeinnumer/MyLibSavedInstanceState/blob/master/preview/example6.gif)|![](https://github.com/gzeinnumer/MyLibSavedInstanceState/blob/master/preview/example7.gif)|![](https://github.com/gzeinnumer/MyLibSavedInstanceState/blob/master/preview/example8.gif)|
 |---|---|---|---|
 |Data lost in `onBackPressed()`|Data lost in `onDestroy()`|Data keep in `onBackPressed()`|Data keep in `onDestroy()`|
 
-# Image
+#
+#### Image StateUI
+
+You can save `Bitmap` from your `ImageView`. Use function `addView()` to set value and `getValueBitmap()` to get value.
+```java
+public class ImageActivity extends AppCompatActivity {
+
+    ...
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        try {
+            stateUI.addView("binding.img", (BitmapDrawable) binding.img.getDrawable());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        stateUI.saveState();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (stateUI.getState()) {
+            Bitmap bitmap = stateUI.getValueBitmap("binding.img");
+            if (bitmap != null) {
+                binding.img.setImageBitmap(bitmap);
+            }
+        }
+    }
+
+    ...
+}
+```
+
+Here is Full Code
+[ImageActivity.java](https://github.com/gzeinnumer/MyLibSavedInstanceState/blob/master/app/src/main/java/com/gzeinnumer/mylibsavedinstancestate/image/ImageActivity.java)
+[activity_image.xml](https://github.com/gzeinnumer/MyLibSavedInstanceState/blob/master/app/src/main/res/layout/activity_image.xml)
+
+Preview:
+
 |![](https://github.com/gzeinnumer/MyLibSavedInstanceState/blob/master/preview/example9.gif)|![](https://github.com/gzeinnumer/MyLibSavedInstanceState/blob/master/preview/example10.gif)|![](https://github.com/gzeinnumer/MyLibSavedInstanceState/blob/master/preview/example11.gif)|![](https://github.com/gzeinnumer/MyLibSavedInstanceState/blob/master/preview/example12.gif)|
 |---|---|---|---|
 |Data lost in `onBackPressed()`|Data lost in `onDestroy()`|Data keep in `onBackPressed()`|Data keep in `onDestroy()`|
 
-# RecyclerView
+#
+#### RecyclerView StateUI
+
+You can save `List` to StateUI. Use function `addViewList(KEY, ListStateReceiver<MyModel>)` to set value and `getValueList(KEY, ListStateCallBack<MyModel>)` to get value.
+
+```java
+public class RecyclerViewActivity extends AppCompatActivity {
+    private List<MyModel> list = new ArrayList<>();
+    private StateUI stateUI;
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        stateUI.addViewList("binding.rv", new ListStateReceiver<MyModel>() {
+            @Override
+            public List<MyModel> listReceived() {
+                return list;
+            }
+        });
+        stateUI.saveState();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (stateUI.getState()) {
+            stateUI.getValueList("binding.rv", new ListStateCallBack<MyModel>() {
+                @Override
+                public Type setListModel() {
+                    return new TypeToken<List<MyModel>>() {
+                    }.getType();
+                }
+
+                @Override
+                public void listCallBack(List<MyModel> listFromState) {
+                    list = new ArrayList<>(listFromState);
+                    initAdapter();
+                }
+            });
+        }
+    }
+}
+```
+
+Here is Full Code
+[RecyclerViewActivity.java](https://github.com/gzeinnumer/MyLibSavedInstanceState/blob/master/app/src/main/java/com/gzeinnumer/mylibsavedinstancestate/recyclerView/RecyclerViewActivity.java)
+[activity_recycler_view.xml](https://github.com/gzeinnumer/MyLibSavedInstanceState/blob/master/app/src/main/res/layout/activity_recycler_view.xml)
+
+Preview:
+
 |![](https://github.com/gzeinnumer/MyLibSavedInstanceState/blob/master/preview/example13.gif)|![](https://github.com/gzeinnumer/MyLibSavedInstanceState/blob/master/preview/example14.gif)|![](https://github.com/gzeinnumer/MyLibSavedInstanceState/blob/master/preview/example15.gif)|![](https://github.com/gzeinnumer/MyLibSavedInstanceState/blob/master/preview/example16.gif)|
 |---|---|---|---|
 |Data lost in `onBackPressed()`|Data lost in `onDestroy()`|Data keep in `onBackPressed()`|Data keep in `onDestroy()`|
 
 ---
 # Example Code/App
-
-[]()
 
 [Sample Code And App](https://github.com/gzeinnumer/MyLibSavedInstanceStateExample)
 
