@@ -9,7 +9,8 @@ import com.gzeinnumer.mylibsavedinstancestate.MenuActivity;
 import com.gzeinnumer.mylibsavedinstancestate.StateUI;
 import com.gzeinnumer.mylibsavedinstancestate.StateUIBuilder;
 import com.gzeinnumer.mylibsavedinstancestate.databinding.ActivityMainBinding;
-import com.gzeinnumer.mylibsavedinstancestate.utils.CustomToast;
+import com.gzeinnumer.mylibsavedinstancestate.utils.CustomToastDown;
+import com.gzeinnumer.mylibsavedinstancestate.utils.CustomToastUp;
 
 public class MainActivity extends AppCompatActivity {
     public static final String TAG = "State_UI";
@@ -34,16 +35,12 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(getApplicationContext(), MenuActivity.class));
             finish();
         });
-
-        binding.btnSaveClose.setOnClickListener(v -> {
-            finishAffinity();
-        });
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        new CustomToast(getApplicationContext(), "Activity_onPause : Data Save To State");
+        new CustomToastUp(getApplicationContext(), "Activity_onPause\nData Save To State");
 
         stateUI.addView("binding.edUsername", binding.edUsername.getText().toString());
         stateUI.addView("binding.edPass", binding.edPass.getText().toString());
@@ -54,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         if (stateUI.getState()) {
-            new CustomToast(getApplicationContext(), "Activity_onResume : Data Loaded From State");
+            new CustomToastDown(getApplicationContext(), "Activity_onResume\nData Loaded From State");
 
             String userName = stateUI.getValue("binding.edUsername");
             binding.edUsername.setText(userName);

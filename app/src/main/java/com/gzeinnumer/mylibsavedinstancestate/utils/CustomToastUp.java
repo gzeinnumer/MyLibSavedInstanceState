@@ -4,9 +4,9 @@ import android.content.Context;
 import android.view.Gravity;
 import android.widget.Toast;
 
-public class CustomToast {
+public class CustomToastUp {
 
-    public CustomToast(Context applicationContext, String msg) {
+    public CustomToastUp(Context applicationContext, String msg) {
         Toast toast = Toast.makeText(applicationContext, msg, Toast.LENGTH_SHORT);
         toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 300);
         toast.show();

@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CompoundButton;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -21,7 +20,8 @@ import com.gzeinnumer.mylibsavedinstancestate.StateUI;
 import com.gzeinnumer.mylibsavedinstancestate.StateUIBuilder;
 import com.gzeinnumer.mylibsavedinstancestate.databinding.ActivityRecyclerViewBinding;
 import com.gzeinnumer.mylibsavedinstancestate.databinding.ItemRvBinding;
-import com.gzeinnumer.mylibsavedinstancestate.utils.CustomToast;
+import com.gzeinnumer.mylibsavedinstancestate.utils.CustomToastDown;
+import com.gzeinnumer.mylibsavedinstancestate.utils.CustomToastUp;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -38,8 +38,6 @@ public class RecyclerViewActivity extends AppCompatActivity {
         binding = ActivityRecyclerViewBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        Toast.makeText(getApplicationContext(), "RecyclerView_onCreate", Toast.LENGTH_SHORT).show();
-
         stateUI = StateUIBuilder.Build(RecyclerViewActivity.class, getApplicationContext());
 
         binding.btnGenerateData.setOnClickListener(view -> {
@@ -53,15 +51,12 @@ public class RecyclerViewActivity extends AppCompatActivity {
             startActivity(new Intent(getApplicationContext(), MenuActivity.class));
             finish();
         });
-        binding.btnSaveClose.setOnClickListener(view -> {
-            finishAffinity();
-        });
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        new CustomToast(getApplicationContext(), "RecyclerView_onPause : Data Save To State");
+        new CustomToastUp(getApplicationContext(), "RecyclerView_onPause\nData Save To State");
 
         stateUI.addViewList("binding.rv", new ListStateReceiver<MyModel>() {
             @Override
@@ -76,7 +71,7 @@ public class RecyclerViewActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         if (stateUI.getState()) {
-            new CustomToast(getApplicationContext(), "RecyclerView_onResume : Data Loaded From State");
+            new CustomToastDown(getApplicationContext(), "RecyclerView_onResume\nData Loaded From State");
 
             stateUI.getValueList("binding.rv", new ListStateCallBack<MyModel>() {
                 @Override

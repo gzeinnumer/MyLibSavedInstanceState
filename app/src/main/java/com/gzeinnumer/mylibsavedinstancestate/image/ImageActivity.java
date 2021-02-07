@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -15,7 +14,8 @@ import com.gzeinnumer.mylibsavedinstancestate.R;
 import com.gzeinnumer.mylibsavedinstancestate.StateUI;
 import com.gzeinnumer.mylibsavedinstancestate.StateUIBuilder;
 import com.gzeinnumer.mylibsavedinstancestate.databinding.ActivityImageBinding;
-import com.gzeinnumer.mylibsavedinstancestate.utils.CustomToast;
+import com.gzeinnumer.mylibsavedinstancestate.utils.CustomToastDown;
+import com.gzeinnumer.mylibsavedinstancestate.utils.CustomToastUp;
 
 public class ImageActivity extends AppCompatActivity {
     StateUI stateUI;
@@ -26,8 +26,6 @@ public class ImageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityImageBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
-        Toast.makeText(getApplicationContext(), "Image_onCreate", Toast.LENGTH_SHORT).show();
 
         stateUI = StateUIBuilder.Build(ImageActivity.class, getApplicationContext());
 
@@ -47,10 +45,6 @@ public class ImageActivity extends AppCompatActivity {
             startActivity(new Intent(getApplicationContext(), MenuActivity.class));
             finish();
         });
-
-        binding.btnSaveClose.setOnClickListener(v -> {
-            finishAffinity();
-        });
     }
 
     private void loadImage() {
@@ -61,7 +55,7 @@ public class ImageActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        new CustomToast(getApplicationContext(), "Image_onPause : Data Save To State");
+        new CustomToastUp(getApplicationContext(), "Image_onPause\nData Save To State");
 
         try {
             stateUI.addView("binding.img", (BitmapDrawable) binding.img.getDrawable());
@@ -75,7 +69,7 @@ public class ImageActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         if (stateUI.getState()) {
-            new CustomToast(getApplicationContext(), "Image_onResume : Data Loaded From State");
+            new CustomToastDown(getApplicationContext(), "Image_onResume\nData Loaded From State");
 
             Bitmap bitmap = stateUI.getValueBitmap("binding.img");
             if (bitmap != null) {

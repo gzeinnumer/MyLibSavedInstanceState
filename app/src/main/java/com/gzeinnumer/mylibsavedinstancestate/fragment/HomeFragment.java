@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,7 +14,8 @@ import com.gzeinnumer.mylibsavedinstancestate.MenuActivity;
 import com.gzeinnumer.mylibsavedinstancestate.StateUI;
 import com.gzeinnumer.mylibsavedinstancestate.StateUIBuilder;
 import com.gzeinnumer.mylibsavedinstancestate.databinding.FragmentHomeBinding;
-import com.gzeinnumer.mylibsavedinstancestate.utils.CustomToast;
+import com.gzeinnumer.mylibsavedinstancestate.utils.CustomToastDown;
+import com.gzeinnumer.mylibsavedinstancestate.utils.CustomToastUp;
 
 public class HomeFragment extends Fragment {
     public static final String TAG = "State_UI";
@@ -42,8 +42,6 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        Toast.makeText(requireContext(), "Fragment_onViewCreated", Toast.LENGTH_SHORT).show();
-
         stateUI = StateUIBuilder.Build(HomeFragment.class, requireContext());
 
         binding.btnClearBack.setOnClickListener(v -> {
@@ -55,16 +53,13 @@ public class HomeFragment extends Fragment {
             startActivity(new Intent(requireContext(), MenuActivity.class));
             requireActivity().finish();
         });
-
-        binding.btnSaveClose.setOnClickListener(v -> {
-            requireActivity().finishAffinity();
-        });
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        new CustomToast(requireContext(), "Fragment_onPause : Data Save To State");
+        new CustomToastUp(requireContext(), "Fragment_onPause\nData Save To State");
+
         stateUI.addView("binding.edUsername", binding.edUsername.getText().toString());
         stateUI.addView("binding.edPass", binding.edPass.getText().toString());
         stateUI.saveState();
@@ -74,7 +69,8 @@ public class HomeFragment extends Fragment {
     public void onResume() {
         super.onResume();
         if (stateUI.getState()) {
-            new CustomToast(requireContext(), "Fragment_onResume : Data Loaded From State");
+            new CustomToastDown(requireContext(), "Fragment_onResume\nData Loaded From State");
+
             String userName = stateUI.getValue("binding.edUsername");
             binding.edUsername.setText(userName);
             String pass = stateUI.getValue("binding.edPass");

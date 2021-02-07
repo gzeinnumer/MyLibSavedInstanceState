@@ -7,27 +7,42 @@
     android:orientation="vertical"
     tools:context=".MenuActivity">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="Example List"
+        android:textColor="@color/black"
+        android:textSize="20sp" />
+
     <Button
         android:id="@+id/btn_example_activity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Example Activity" />
+        android:enabled="false"
+        android:text="Example Activity"
+        android:textAllCaps="false" />
 
     <Button
         android:id="@+id/btn_example_fragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Example Fragment" />
+        android:enabled="false"
+        android:text="Example Fragment"
+        android:textAllCaps="false" />
 
     <Button
         android:id="@+id/btn_example_imageview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Example ImageView" />
+        android:enabled="false"
+        android:text="Example ImageView"
+        android:textAllCaps="false" />
 
     <Button
         android:id="@+id/btn_example_recyclerview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Example RecyclerView" />
+        android:text="Example RecyclerView"
+        android:textAllCaps="false" />
 </LinearLayout>

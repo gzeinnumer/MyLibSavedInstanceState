@@ -29,13 +29,6 @@
         android:text="Save State And Back To Menu"
         android:textAllCaps="false" />
 
-    <Button
-        android:id="@+id/btn_save_close"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Save State And Close App"
-        android:textAllCaps="false" />
-
     <ImageView
         android:id="@+id/img"
         android:layout_width="match_parent"
