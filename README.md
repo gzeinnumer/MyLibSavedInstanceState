@@ -57,19 +57,86 @@ dependencies {
 ---
 # Usage
 
-### **File To Base64.**
-File Image From Path and convert to `Base64` with format `data:image/jpeg;base64,` + `....kagsfkajha`
+Save UI State like `SavedInstanceState` with `Bundle`. but with this library, you can keep data/value in View as long as you want,
+or you can **Clear Cache** from your app in `Application Settings`. State will keep save even when you `kill` your app process.
+
+### Activity StateUI
+#### Make instance from StateUI
 > **Java**
 ```java
-String filePath = "/storage/emulated/0/YourFolder/file_image.jpg";
-val result_9 = MBBase64.convertToBase64FromPath(filePath);
-Log.d(TAG, "onCreate_9: "+ result_8); //   data:image/jpeg;base64,kasgfkaghaksfakgshalgal
+public class MainActivity extends AppCompatActivity {
+
+    private StateUI stateUI;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        ...
+
+        stateUI = StateUIBuilder.Build(MainActivity.class, getApplicationContext());
+
+        ...
+    }
+}
 ```
-> **Kotlin**
-```kotlin
+#
+#### Add Value To Keep
+
+Use function `addView(KEY, VALUE)` on `onPause()` add value that you want to keep and use `saveState()` to submit your value. When `onPause()` called StateUI will keep your value.
+```java
+public class MainActivity extends AppCompatActivity {
+
+    private StateUI stateUI;
+
+    ...
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        stateUI.addView("binding.edUsername", binding.edUsername.getText().toString());
+        stateUI.addView("binding.edPass", binding.edPass.getText().toString());
+        stateUI.saveState();
+    }
+}
+````
+#
+#### Get Value To Display Again
+
+Use function `onResume()` to get value that you have been save before. Check value in `StateUI` is exists, if exists than get value with it's own `KEY` with `getValue(KEY)` and set value to your view again.
+```java
+public class MainActivity extends AppCompatActivity {
+
+    private StateUI stateUI;
+
+    ...
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (stateUI.getState()) {
+            String userName = stateUI.getValue("binding.edUsername");
+            binding.edUsername.setText(userName);
+            String pass = stateUI.getValue("binding.edPass");
+            binding.edPass.setText(pass);
+        }
+    }
+}
+```
+#
+#### Clear Value From StateUI
+
+Clear your state when you no need it anymore with.
+```java
+stateUI.clearState();
 ```
 
-# Activity
+Here is Full Code
+[MainActivity.java](https://github.com/gzeinnumer/MyLibSavedInstanceState/blob/master/app/src/main/java/com/gzeinnumer/mylibsavedinstancestate/activity/MainActivity.java)
+[activity_main.xml](https://github.com/gzeinnumer/MyLibSavedInstanceState/blob/master/app/src/main/res/layout/activity_main.xml)
+
+Preview:
+
 |![](https://github.com/gzeinnumer/MyLibSavedInstanceState/blob/master/preview/example1.gif)|![](https://github.com/gzeinnumer/MyLibSavedInstanceState/blob/master/preview/example2.gif)|![](https://github.com/gzeinnumer/MyLibSavedInstanceState/blob/master/preview/example3.gif)|![](https://github.com/gzeinnumer/MyLibSavedInstanceState/blob/master/preview/example4.gif)|
 |---|---|---|---|
 |Data lost in `onBackPressed()`|Data lost in `onDestroy()`|Data keep in `onBackPressed()`|Data keep in `onDestroy()`|

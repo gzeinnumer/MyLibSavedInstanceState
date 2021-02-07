@@ -18,7 +18,7 @@ import com.gzeinnumer.mylibsavedinstancestate.utils.CustomToastDown;
 import com.gzeinnumer.mylibsavedinstancestate.utils.CustomToastUp;
 
 public class ImageActivity extends AppCompatActivity {
-    StateUI stateUI;
+    private StateUI stateUI;
     private ActivityImageBinding binding;
 
     @Override

@@ -15,7 +15,7 @@ import com.gzeinnumer.mylibsavedinstancestate.utils.CustomToastUp;
 public class MainActivity extends AppCompatActivity {
     public static final String TAG = "State_UI";
 
-    StateUI stateUI;
+    private StateUI stateUI;
     private ActivityMainBinding binding;
 
     @Override

@@ -29,7 +29,7 @@ import java.util.List;
 
 public class RecyclerViewActivity extends AppCompatActivity {
     private ActivityRecyclerViewBinding binding;
-    List<MyModel> list = new ArrayList<>();
+    private List<MyModel> list = new ArrayList<>();
     private StateUI stateUI;
 
     @Override

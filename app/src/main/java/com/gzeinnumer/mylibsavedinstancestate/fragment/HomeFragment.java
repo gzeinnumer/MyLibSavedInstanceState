@@ -22,7 +22,7 @@ public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
 
-    StateUI stateUI;
+    private StateUI stateUI;
 
     public HomeFragment() {
     }
