@@ -7,7 +7,7 @@
 </h1>
 
 <p align="center">
-    <a><img src="https://img.shields.io/badge/Version-1.0.0-brightgreen.svg?style=flat"></a>
+    <a><img src="https://img.shields.io/badge/Version-1.0.1-brightgreen.svg?style=flat"></a>
     <a><img src="https://img.shields.io/badge/ID-gzeinnumer-blue.svg?style=flat"></a>
     <a><img src="https://img.shields.io/badge/Java-Suport-green?logo=java&style=flat"></a>
     <a><img src="https://img.shields.io/badge/kotlin-Suport-green?logo=kotlin&style=flat"></a>
@@ -344,7 +344,7 @@ protected void onStop() {
 #
 ### Clear All StateUI
 
-Call this function every where, this function will Clear All Of Your StateUI that you have been save before
+Call this function every where, this function will Clear All Of Your StateUI that you have been save before, in every `Activity/Fragment`
 ```java
 stateUI.destroyStateUI();
 ```
@@ -358,6 +358,8 @@ stateUI.destroyStateUI();
 # Version
 - **1.0.0**
   - First Release
+- **1.0.1**
+  - Clear All StateUI
 
 ---
 # Contribution
