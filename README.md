@@ -133,9 +133,9 @@ stateUI.clearState();
 ```
 
 #
-#### Clear Value From StateUI onDestroy
+#### Clear Value From StateUI onStop
 
-You can clear your StateUI when `onDestroy()` called.
+You can clear your StateUI if you wont to keep it when app killed, put `stateUI.clearState()` on function `onStop()`.
 ```java
 public class MainActivity extends AppCompatActivity {
 
@@ -144,8 +144,8 @@ public class MainActivity extends AppCompatActivity {
     ...
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    protected void onStop() {
+        super.onStop();
         stateUI.clearState();
     }
 }
