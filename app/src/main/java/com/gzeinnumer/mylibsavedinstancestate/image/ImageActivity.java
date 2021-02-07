@@ -1,6 +1,7 @@
 package com.gzeinnumer.mylibsavedinstancestate.image;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.view.View;
@@ -14,6 +15,7 @@ import com.gzeinnumer.mylibsavedinstancestate.R;
 import com.gzeinnumer.mylibsavedinstancestate.StateUI;
 import com.gzeinnumer.mylibsavedinstancestate.StateUIBuilder;
 import com.gzeinnumer.mylibsavedinstancestate.databinding.ActivityImageBinding;
+import com.gzeinnumer.mylibsavedinstancestate.utils.CustomToast;
 
 public class ImageActivity extends AppCompatActivity {
     StateUI stateUI;
@@ -59,15 +61,26 @@ public class ImageActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        Toast.makeText(this, "Image_onPause", Toast.LENGTH_SHORT).show();
-        stateUI.addView("binding.img", (BitmapDrawable) binding.img.getDrawable());
+        new CustomToast(getApplicationContext(), "Image_onPause : Data Save To State");
+
+        try {
+            stateUI.addView("binding.img", (BitmapDrawable) binding.img.getDrawable());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         stateUI.saveState();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        Toast.makeText(this, "Image_onResume", Toast.LENGTH_SHORT).show();
-        binding.img.setImageBitmap(stateUI.getValueBitmap("binding.img"));
+        if (stateUI.getState()) {
+            new CustomToast(getApplicationContext(), "Image_onResume : Data Loaded From State");
+
+            Bitmap bitmap = stateUI.getValueBitmap("binding.img");
+            if (bitmap != null) {
+                binding.img.setImageBitmap(bitmap);
+            }
+        }
     }
 }

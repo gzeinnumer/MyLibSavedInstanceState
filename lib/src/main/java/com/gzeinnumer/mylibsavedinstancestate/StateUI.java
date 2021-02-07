@@ -11,78 +11,101 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.ByteArrayOutputStream;
+import java.lang.reflect.Type;
 import java.util.HashMap;
+import java.util.List;
 
 public class StateUI {
     public static final String TAG = "State_UI";
 
-    private String clss;
+    private final String clss;
     private final Gson gson;
     private final HashMap<Object, String> data;
     private final SharedPreferences pref;
     private SharedPreferences.Editor mEditor;
     private boolean isClear = false;
 
-    public StateUI(Context context) {
+    public StateUI(Context context, String clss) {
         String PREF_NAME = "gzeinnumer_save_state";
-        pref = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
-        gson = new Gson();
-        data = new HashMap<>();
-    }
-
-    public String getId() {
-        return pref.getString(clss, null);
-    }
-
-    public void clearState() {
-        isClear = true;
-        try {
-            mEditor = pref.edit();
-            mEditor.remove(clss).apply();
-            mEditor.putString(clss, null).apply();
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-    }
-
-    public void addViewState(String clss) {
+        this.pref = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+        this.gson = new Gson();
+        this.data = new HashMap<>();
         this.clss = clss;
     }
 
-    public void addView(Object object, String value) {
-
-        data.put(String.valueOf(object), value);
+    /**
+     * Use this method in onPause() to add view that you want to keep in StateUI
+     *
+     * @param objectName name of variable in String as KEY to get value in function onResume.
+     * @param value      value that you want to save with Integer type.
+     */
+    public void addView(Object objectName, int value) {
+        addView(objectName, String.valueOf(value));
     }
 
-    public void addView(Object object, BitmapDrawable value) {
+
+    /**
+     * Use this method in onPause() to add view that you want to keep in StateUI
+     *
+     * @param objectName name of variable in String as KEY to get value in function onResume.
+     * @param value      value that you want to save with float type.
+     */
+    public void addView(Object objectName, float value) {
+        addView(objectName, String.valueOf(value));
+    }
+
+    /**
+     * Use this method in onPause() to add view that you want to keep in StateUI
+     *
+     * @param objectName name of variable in String as KEY to get value in function onResume.
+     * @param value      value that you want to save with double type.
+     */
+    public void addView(Object objectName, double value) {
+        addView(objectName, String.valueOf(value));
+    }
+
+    /**
+     * Use this method in onPause() to add view that you want to keep in StateUI
+     *
+     * @param objectName name of variable in String as KEY to get value in function onResume.
+     * @param value      value that you want to save with String type.
+     */
+    public void addView(Object objectName, String value) {
+        data.put(String.valueOf(objectName), value);
+    }
+
+    /**
+     * Use this method in onPause() to add view that you want to keep in StateUI
+     * Note : put this function on Try Catch
+     *
+     * @param objectName name of variable in String as KEY to get value in function onResume.
+     * @param value      value that you want to save with BitmapDrawable type.
+     *                   <p>
+     *                   if you never change preview of your ImageView catch will triggered
+     */
+    public void addView(Object objectName, BitmapDrawable value) throws Exception {
         Bitmap bitmap = value.getBitmap();
-        data.put(String.valueOf(object), bitMapToString(bitmap));
+        this.data.put(String.valueOf(objectName), bitMapToString(bitmap));
     }
 
-    public String getValue(Object object) {
-        try {
-            String str = pref.getString(clss, null);
-            java.lang.reflect.Type type = new TypeToken<HashMap<String, String>>() {
-            }.getType();
-            HashMap<String, String> testHashMap2 = gson.fromJson(str, type);
-            return testHashMap2.get(String.valueOf(object));
-        } catch (Exception e) {
-            return null;
-        }
+    /**
+     * Use this method in onPause() to add view that you want to keep in StateUI
+     *
+     * @param objectName        name of variable in String as KEY to get value in function onResume.
+     * @param listStateReceiver value that you want to save with List<T> type.
+     *                          <p>
+     *                          if you never change preview of your ImageView catch will triggered
+     */
+    public <T> void addViewList(Object objectName, ListStateReceiver<T> listStateReceiver) {
+        List<T> d = listStateReceiver.listReceived();
+        String value = this.gson.toJson(d);
+        data.put(String.valueOf(objectName), value);
     }
 
-    public Bitmap getValueBitmap(Object object) {
-        try {
-            String str = pref.getString(clss, null);
-            java.lang.reflect.Type type = new TypeToken<HashMap<String, String>>() {
-            }.getType();
-            HashMap<String, String> testHashMap2 = gson.fromJson(str, type);
-            return stringToBitMap(testHashMap2.get(String.valueOf(object)));
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
+    /**
+     * Use this method in onPause() to save all view in StateUI storage
+     * note : after you use method clearState(), this method wont work even when onPause() called
+     */
     public void saveState() {
         if (!isClear) {
             mEditor = pref.edit();
@@ -90,18 +113,94 @@ public class StateUI {
         }
     }
 
+    /**
+     * Use this method to check is your StateUI exists
+     *
+     * @return false if your not set addView() after StateUIBuilder
+     */
     public boolean getState() {
         return pref.getString(clss, null) != null;
     }
 
-    public String bitMapToString(Bitmap bitmap) {
+    /**
+     * Use this method in onResume() to get value that you set before
+     *
+     * @param objectName name of variable in String as KEY to get value from function onPause().
+     * @return String
+     */
+    public String getValue(Object objectName) {
+        try {
+            String str = this.pref.getString(this.clss, null);
+            java.lang.reflect.Type type = new TypeToken<HashMap<String, String>>() {
+            }.getType();
+            HashMap<String, String> testHashMap2 = this.gson.fromJson(str, type);
+            return testHashMap2.get(String.valueOf(objectName));
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    /**
+     * Use this method in onResume() to to get value that you set from RecyclerView with List<T> type
+     *
+     * @param objectName        name of variable in String as KEY to get value from function onPause.
+     * @param listStateCallBack use this callBack to set your Model of List with setListModel() and getList from state with listCallBack().
+     */
+    public <T> void getValueList(Object objectName, ListStateCallBack<T> listStateCallBack) {
+        try {
+            String str = pref.getString(clss, null);
+            java.lang.reflect.Type typeMap = new TypeToken<HashMap<String, String>>() {
+            }.getType();
+            HashMap<String, String> testHashMap2 = gson.fromJson(str, typeMap);
+            String value = testHashMap2.get(String.valueOf(objectName));
+            Type type = listStateCallBack.setListModel();
+            List<T> list = gson.fromJson(value, type);
+            listStateCallBack.listCallBack(list);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Use this method to add view that you want to keep value from RecyclerView with List<T> type
+     *
+     * @param objectName name of variable in String as KEY to get value from function onPause.
+     * @return BitMap if Success / null if you never change ImageView preview.
+     */
+    public Bitmap getValueBitmap(Object objectName) {
+        try {
+            String str = pref.getString(clss, null);
+            java.lang.reflect.Type type = new TypeToken<HashMap<String, String>>() {
+            }.getType();
+            HashMap<String, String> testHashMap2 = gson.fromJson(str, type);
+            return stringToBitMap(testHashMap2.get(String.valueOf(objectName)));
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    /**
+     * Use this method to clear all State from your view
+     */
+    public void clearState() {
+        isClear = true;
+        try {
+            mEditor = pref.edit();
+            mEditor.remove(clss).apply();
+            mEditor.putString(clss, null).apply();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private String bitMapToString(Bitmap bitmap) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
         byte[] b = baos.toByteArray();
         return Base64.encodeToString(b, Base64.DEFAULT);
     }
 
-    public Bitmap stringToBitMap(String encodedString) {
+    private Bitmap stringToBitMap(String encodedString) {
         try {
             byte[] encodeByte = Base64.decode(encodedString, Base64.DEFAULT);
             return BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);

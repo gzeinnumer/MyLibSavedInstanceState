@@ -14,8 +14,8 @@ import androidx.fragment.app.Fragment;
 import com.gzeinnumer.mylibsavedinstancestate.MenuActivity;
 import com.gzeinnumer.mylibsavedinstancestate.StateUI;
 import com.gzeinnumer.mylibsavedinstancestate.StateUIBuilder;
-import com.gzeinnumer.mylibsavedinstancestate.activity.MainActivity;
 import com.gzeinnumer.mylibsavedinstancestate.databinding.FragmentHomeBinding;
+import com.gzeinnumer.mylibsavedinstancestate.utils.CustomToast;
 
 public class HomeFragment extends Fragment {
     public static final String TAG = "State_UI";
@@ -44,7 +44,7 @@ public class HomeFragment extends Fragment {
 
         Toast.makeText(requireContext(), "Fragment_onViewCreated", Toast.LENGTH_SHORT).show();
 
-        stateUI = StateUIBuilder.Build(MainActivity.class, requireContext());
+        stateUI = StateUIBuilder.Build(HomeFragment.class, requireContext());
 
         binding.btnClearBack.setOnClickListener(v -> {
             stateUI.clearState();
@@ -64,7 +64,7 @@ public class HomeFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        Toast.makeText(requireContext(), "Fragment_onPause", Toast.LENGTH_SHORT).show();
+        new CustomToast(requireContext(), "Fragment_onPause : Data Save To State");
         stateUI.addView("binding.edUsername", binding.edUsername.getText().toString());
         stateUI.addView("binding.edPass", binding.edPass.getText().toString());
         stateUI.saveState();
@@ -73,8 +73,12 @@ public class HomeFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        Toast.makeText(requireContext(), "Fragment_onResume", Toast.LENGTH_SHORT).show();
-        binding.edUsername.setText(stateUI.getValue("binding.edUsername"));
-        binding.edPass.setText(stateUI.getValue("binding.edPass"));
+        if (stateUI.getState()) {
+            new CustomToast(requireContext(), "Fragment_onResume : Data Loaded From State");
+            String userName = stateUI.getValue("binding.edUsername");
+            binding.edUsername.setText(userName);
+            String pass = stateUI.getValue("binding.edPass");
+            binding.edPass.setText(pass);
+        }
     }
 }

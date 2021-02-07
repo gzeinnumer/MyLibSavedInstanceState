@@ -2,7 +2,6 @@ package com.gzeinnumer.mylibsavedinstancestate.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,6 +9,7 @@ import com.gzeinnumer.mylibsavedinstancestate.MenuActivity;
 import com.gzeinnumer.mylibsavedinstancestate.StateUI;
 import com.gzeinnumer.mylibsavedinstancestate.StateUIBuilder;
 import com.gzeinnumer.mylibsavedinstancestate.databinding.ActivityMainBinding;
+import com.gzeinnumer.mylibsavedinstancestate.utils.CustomToast;
 
 public class MainActivity extends AppCompatActivity {
     public static final String TAG = "State_UI";
@@ -22,8 +22,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
-        Toast.makeText(this, "Activity_onCreate", Toast.LENGTH_SHORT).show();
 
         stateUI = StateUIBuilder.Build(MainActivity.class, getApplicationContext());
 
@@ -45,7 +43,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        Toast.makeText(this, "Activity_onPause", Toast.LENGTH_SHORT).show();
+        new CustomToast(getApplicationContext(), "Activity_onPause : Data Save To State");
+
         stateUI.addView("binding.edUsername", binding.edUsername.getText().toString());
         stateUI.addView("binding.edPass", binding.edPass.getText().toString());
         stateUI.saveState();
@@ -54,8 +53,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Toast.makeText(this, "Activity_onResume", Toast.LENGTH_SHORT).show();
-        binding.edUsername.setText(stateUI.getValue("binding.edUsername"));
-        binding.edPass.setText(stateUI.getValue("binding.edPass"));
+        if (stateUI.getState()) {
+            new CustomToast(getApplicationContext(), "Activity_onResume : Data Loaded From State");
+
+            String userName = stateUI.getValue("binding.edUsername");
+            binding.edUsername.setText(userName);
+            String pass = stateUI.getValue("binding.edPass");
+            binding.edPass.setText(pass);
+        }
     }
 }
