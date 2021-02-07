@@ -69,6 +69,9 @@ Log.d(TAG, "onCreate_9: "+ result_8); //   data:image/jpeg;base64,kasgfkaghaksfa
 ```kotlin
 ```
 
+|![](https://github.com/gzeinnumer/MyLibSavedInstanceState/blob/master/preview/example1.gif)|
+|---|---|
+
 ---
 # Example Code/App
 
