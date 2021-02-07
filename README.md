@@ -51,6 +51,7 @@ dependencies {
 - [x] [Fragment StateUI](#fragment-stateui)
 - [x] [Image StateUI](#image-stateui)
 - [x] [Recyclerview StateUI](#recyclerview-stateui)
+- [x] [Variable With StateUI](#variable-with-stateui)
 
 ---
 # Tech stack and 3rd library
@@ -315,6 +316,8 @@ Preview:
 
 #
 ### Variable With StateUI
+
+Variable
 ```java
 //onPause()
 String data = "sentThisDataToState";
@@ -323,6 +326,7 @@ stateUI.addView("data", data);
 //onResume()
 String data = stateUI.getValue("data");
 ```
+ViewModel
 ```java
 //onPause()
 stateUI.addView("vm.data.getValue()", vm.data.getValue());
