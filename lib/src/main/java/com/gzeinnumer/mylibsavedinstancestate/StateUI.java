@@ -197,6 +197,15 @@ public class StateUI {
         }
     }
 
+
+    /**
+     * Use this method to clear all StateUI in your app
+     */
+    public void destroyStateUI() {
+        mEditor = pref.edit();
+        mEditor.clear().apply();
+    }
+
     private String bitMapToString(Bitmap bitmap) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
