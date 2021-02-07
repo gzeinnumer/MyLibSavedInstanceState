@@ -47,7 +47,10 @@ dependencies {
 
 ---
 # Feature List
-- [x] []()
+- [x] [Activity StateUI](#activity-stateui)
+- [x] [Fragment StateUI](#fragment-stateui)
+- [x] [Image StateUI](#image-stateui)
+- [x] [Recyclerview StateUI](#recyclerview-stateui)
 
 ---
 # Tech stack and 3rd library
@@ -187,7 +190,7 @@ Preview:
 |Data lost in `onBackPressed()`|Data lost in `onDestroy()`|Data keep in `onBackPressed()`|Data keep in `onDestroy()`|
 
 #
-#### Image StateUI
+### Image StateUI
 
 You can save `Bitmap` from your `ImageView`. Use function `addView()` to set value and `getValueBitmap()` to get value.
 ```java
@@ -232,7 +235,7 @@ Preview:
 |Data lost in `onBackPressed()`|Data lost in `onDestroy()`|Data keep in `onBackPressed()`|Data keep in `onDestroy()`|
 
 #
-#### RecyclerView StateUI
+### RecyclerView StateUI
 
 You can save `List` to StateUI. Use function `addViewList(KEY, ListStateReceiver<MyModel>)` to set value and `getValueList(KEY, ListStateCallBack<MyModel>)` to get value.
 
