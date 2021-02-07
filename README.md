@@ -140,21 +140,6 @@ binding.btnLogin.setOnClickListener(v -> {
 });
 ```
 
-#
-#### Clear Value From StateUI onStop
-
-> **READ CAREFULLY!!! IF YOU USE THIS STEP. APP WILL KILL STATE-UI IN YOUR CURRENT ACTIVITY WHEN YOU CLOSE YOUR APP, ONLY ON CURRENT ACTIVITY**
-
-You can clear StateUI if you `WONT` keep it when app killed, put `stateUI.clearState()` on function `onStop()`.
-```java
-//ignore this if you want to keep value even when your app Killed
-@Override
-protected void onStop() {
-    super.onStop();
-    stateUI.clearState();
-}
-```
-
 Here is Full Code
 [MainActivity.java](https://github.com/gzeinnumer/MyLibSavedInstanceState/blob/master/app/src/main/java/com/gzeinnumer/mylibsavedinstancestate/activity/MainActivity.java)
  & [activity_main.xml](https://github.com/gzeinnumer/MyLibSavedInstanceState/blob/master/app/src/main/res/layout/activity_main.xml)
@@ -337,6 +322,21 @@ stateUI.addView("vm.data.getValue()", vm.data.getValue());
 //onResume()
 String data = stateUI.getValue("vm.data.getValue()");
 vm.setData(data);
+```
+
+#
+### Clear Value StateUI onStop
+
+> **READ CAREFULLY!!! IF YOU USE THIS STEP. APP WILL KILL STATE-UI IN YOUR CURRENT ACTIVITY WHEN YOU CLOSE(NOT MINIMIZE) YOUR APP, ONLY ON CURRENT ACTIVITY**
+
+You can clear StateUI if you `WONT` keep it when app killed, put `stateUI.clearState()` on function `onStop()`.
+```java
+//ignore this if you want to keep value even when your app Killed
+@Override
+protected void onStop() {
+    super.onStop();
+    stateUI.clearState();
+}
 ```
 
 ---
