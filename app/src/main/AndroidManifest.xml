@@ -11,7 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyLibSavedInstanceState">
-        <activity android:name=".recyclerView.RecyclerViewActivity"></activity>
+        <activity android:name=".recyclerView.RecyclerViewActivity" />
         <activity android:name=".image.ImageActivity" />
         <activity android:name=".MenuActivity">
             <intent-filter>

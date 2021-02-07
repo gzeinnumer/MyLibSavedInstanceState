@@ -42,6 +42,9 @@ allprojects {
 dependencies {
   ...
   implementation 'com.github.gzeinnumer:MyLibSavedInstanceState:version'
+
+  //required for example
+  implementation 'com.github.gzeinnumer:MyLibRecyclerViewAdapterBuilder:1.3.1'
 }
 ```
 
