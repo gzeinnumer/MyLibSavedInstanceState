@@ -19,7 +19,6 @@
         android:id="@+id/btn_example_activity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:enabled="false"
         android:text="Example Activity"
         android:textAllCaps="false" />
 
@@ -27,7 +26,6 @@
         android:id="@+id/btn_example_fragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:enabled="false"
         android:text="Example Fragment"
         android:textAllCaps="false" />
 
@@ -35,7 +33,6 @@
         android:id="@+id/btn_example_imageview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:enabled="false"
         android:text="Example ImageView"
         android:textAllCaps="false" />
 

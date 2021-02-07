@@ -66,7 +66,6 @@ or you can **Clear Cache** from your app in `Application Settings`. State will k
 #
 ### Activity StateUI
 #### Make instance from StateUI
-> **Java**
 ```java
 public class MainActivity extends AppCompatActivity {
 
@@ -133,9 +132,28 @@ Clear your state when you no need it anymore with.
 stateUI.clearState();
 ```
 
+#
+#### Clear Value From StateUI onDestroy
+
+You can clear your StateUI when `onDestroy()` called.
+```java
+public class MainActivity extends AppCompatActivity {
+
+    private StateUI stateUI;
+
+    ...
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        stateUI.clearState();
+    }
+}
+```
+
 Here is Full Code
 [MainActivity.java](https://github.com/gzeinnumer/MyLibSavedInstanceState/blob/master/app/src/main/java/com/gzeinnumer/mylibsavedinstancestate/activity/MainActivity.java)
-[activity_main.xml](https://github.com/gzeinnumer/MyLibSavedInstanceState/blob/master/app/src/main/res/layout/activity_main.xml)
+ & [activity_main.xml](https://github.com/gzeinnumer/MyLibSavedInstanceState/blob/master/app/src/main/res/layout/activity_main.xml)
 
 Preview:
 
@@ -181,7 +199,7 @@ public class HomeFragment extends Fragment {
 
 Here is Full Code
 [HomeFragment.java](https://github.com/gzeinnumer/MyLibSavedInstanceState/blob/master/app/src/main/java/com/gzeinnumer/mylibsavedinstancestate/fragment/HomeFragment.java)
-[fragment_home.xml](https://github.com/gzeinnumer/MyLibSavedInstanceState/blob/master/app/src/main/res/layout/fragment_home.xml)
+ & [fragment_home.xml](https://github.com/gzeinnumer/MyLibSavedInstanceState/blob/master/app/src/main/res/layout/fragment_home.xml)
 
 Preview:
 
@@ -226,7 +244,7 @@ public class ImageActivity extends AppCompatActivity {
 
 Here is Full Code
 [ImageActivity.java](https://github.com/gzeinnumer/MyLibSavedInstanceState/blob/master/app/src/main/java/com/gzeinnumer/mylibsavedinstancestate/image/ImageActivity.java)
-[activity_image.xml](https://github.com/gzeinnumer/MyLibSavedInstanceState/blob/master/app/src/main/res/layout/activity_image.xml)
+ & [activity_image.xml](https://github.com/gzeinnumer/MyLibSavedInstanceState/blob/master/app/src/main/res/layout/activity_image.xml)
 
 Preview:
 
@@ -280,7 +298,7 @@ public class RecyclerViewActivity extends AppCompatActivity {
 
 Here is Full Code
 [RecyclerViewActivity.java](https://github.com/gzeinnumer/MyLibSavedInstanceState/blob/master/app/src/main/java/com/gzeinnumer/mylibsavedinstancestate/recyclerView/RecyclerViewActivity.java)
-[activity_recycler_view.xml](https://github.com/gzeinnumer/MyLibSavedInstanceState/blob/master/app/src/main/res/layout/activity_recycler_view.xml)
+ & [activity_recycler_view.xml](https://github.com/gzeinnumer/MyLibSavedInstanceState/blob/master/app/src/main/res/layout/activity_recycler_view.xml)
 
 Preview:
 

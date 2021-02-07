@@ -77,4 +77,10 @@ public class ImageActivity extends AppCompatActivity {
             }
         }
     }
+
+//    @Override
+//    public void onStop() {
+//        super.onStop();
+//        stateUI.clearState();
+//    }
 }

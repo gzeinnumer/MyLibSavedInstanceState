@@ -59,4 +59,11 @@ public class MainActivity extends AppCompatActivity {
             binding.edPass.setText(pass);
         }
     }
+
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        stateUI.clearState();
+    }
 }

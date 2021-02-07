@@ -121,4 +121,10 @@ public class RecyclerViewActivity extends AppCompatActivity {
         binding.rv.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         binding.rv.hasFixedSize();
     }
+
+//    @Override
+//    public void onStop() {
+//        super.onStop();
+//        stateUI.clearState();
+//    }
 }

@@ -77,4 +77,10 @@ public class HomeFragment extends Fragment {
             binding.edPass.setText(pass);
         }
     }
+
+//    @Override
+//    public void onStop() {
+//        super.onStop();
+//        stateUI.clearState();
+//    }
 }
