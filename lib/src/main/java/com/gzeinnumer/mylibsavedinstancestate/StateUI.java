@@ -148,6 +148,7 @@ public class StateUI {
      *
      * @param objectName        name of variable in String as KEY to get value from function onPause().
      * @param listStateCallBack use this callBack to set your ModelPojo and getList
+     *
      */
     public <T> void getValueList(Object objectName, ListStateCallBack<T> listStateCallBack) {
         try {

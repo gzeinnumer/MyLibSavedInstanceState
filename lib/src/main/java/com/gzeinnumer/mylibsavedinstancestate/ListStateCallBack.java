@@ -13,7 +13,6 @@ public interface ListStateCallBack<T> {
 
     /**
      * Use this method to teka back list that you have been save before
-     *
      * @param listFromState you list data from StateUI, put it on your List
      */
     void listCallBack(List<T> listFromState);
