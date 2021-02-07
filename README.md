@@ -143,7 +143,7 @@ binding.btnLogin.setOnClickListener(v -> {
 #
 #### Clear Value From StateUI onStop
 
-> **READ CAREFULLY!!! IF YOU USE THIS STEP. APP WILL KILL STATE-UI IN YOUR CURRENT ACTIVITY, ONLY ON CURRENT ACTIVITY**
+> **READ CAREFULLY!!! IF YOU USE THIS STEP. APP WILL KILL STATE-UI IN YOUR CURRENT ACTIVITY WHEN YOU CLOSE YOUR APP, ONLY ON CURRENT ACTIVITY**
 
 You can clear StateUI if you `WONT` keep it when app killed, put `stateUI.clearState()` on function `onStop()`.
 ```java
