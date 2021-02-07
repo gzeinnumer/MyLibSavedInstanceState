@@ -133,25 +133,25 @@ public class MainActivity extends AppCompatActivity {
 
 Clear your state when you no need it anymore with.
 ```java
-stateUI.clearState();
+//login and clear last value on form by onClick
+binding.btnLogin.setOnClickListener(v -> {
+    stateUI.clearState();
+    startActivity(new Intent(getApplicationContext(), MenuActivity.class));
+});
 ```
 
 #
 #### Clear Value From StateUI onStop
 
-You can clear your StateUI if you wont to keep it when app killed, put `stateUI.clearState()` on function `onStop()`.
+> **READ CAREFULLY!!! IF YOU USE THIS STEP. APP WILL KILL STATE-UI IN YOUR CURRENT ACTIVITY, ONLY ON CURRENT ACTIVITY**
+
+You can clear StateUI if you wont to keep it when app killed, put `stateUI.clearState()` on function `onStop()`.
 ```java
-public class MainActivity extends AppCompatActivity {
-
-    private StateUI stateUI;
-
-    ...
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        stateUI.clearState();
-    }
+//ignore this if you want to keep value even when your app Killed
+@Override
+protected void onStop() {
+    super.onStop();
+    stateUI.clearState();
 }
 ```
 
