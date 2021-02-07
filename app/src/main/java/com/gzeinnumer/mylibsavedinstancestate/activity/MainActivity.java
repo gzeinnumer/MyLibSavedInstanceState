@@ -60,10 +60,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        stateUI.clearState();
-    }
+//    @Override
+//    protected void onStop() {
+//        super.onStop();
+//        stateUI.clearState();
+//    }
 }
