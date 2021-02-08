@@ -18,6 +18,7 @@ import com.gzeinnumer.mylibsavedinstancestate.utils.CustomToastDown;
 import com.gzeinnumer.mylibsavedinstancestate.utils.CustomToastUp;
 
 public class ImageActivity extends AppCompatActivity {
+
     private StateUI stateUI;
     private ActivityImageBinding binding;
 
@@ -58,7 +59,7 @@ public class ImageActivity extends AppCompatActivity {
         new CustomToastUp(getApplicationContext(), "Image_onPause\nData Save To State");
 
         try {
-            stateUI.addView("binding.img", (BitmapDrawable) binding.img.getDrawable());
+            stateUI.addViewBitmap("binding.img", (BitmapDrawable) binding.img.getDrawable());
         } catch (Exception e) {
             e.printStackTrace();
         }

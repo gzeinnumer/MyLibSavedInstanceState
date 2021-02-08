@@ -23,12 +23,15 @@ public class StateUI {
     private SharedPreferences.Editor mEditor;
     private boolean isClear = false;
 
+    private final StateImageUI stateImageUI;
+
     public StateUI(Context context, String clss) {
         String PREF_NAME = "gzeinnumer_save_state";
         this.pref = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         this.gson = new Gson();
         this.data = new HashMap<>();
         this.clss = clss;
+        this.stateImageUI = new StateImageUI(context);
     }
 
     /**
@@ -40,7 +43,6 @@ public class StateUI {
     public void addView(Object objectName, int value) {
         addView(objectName, String.valueOf(value));
     }
-
 
     /**
      * Use this method in onPause() to add view that you want to keep in StateUI
@@ -81,9 +83,17 @@ public class StateUI {
      *                   <p>
      *                   if you never change preview of your ImageView catch will triggered
      */
-    public void addView(Object objectName, BitmapDrawable value) throws Exception {
-        Bitmap bitmap = value.getBitmap();
-        this.data.put(String.valueOf(objectName), bitMapToString(bitmap));
+    public void addViewBitmap(Object objectName, BitmapDrawable value) throws Exception {
+        if (!isClear) {
+            Bitmap bitmap = value.getBitmap();
+            this.stateImageUI.setImage(String.valueOf(objectName), bitMapToString(bitmap));
+        }
+    }
+
+    public void addViewPath(Object objectName, String value) {
+        if (!isClear) {
+            this.stateImageUI.setImage(String.valueOf(objectName), value);
+        }
     }
 
     /**
@@ -172,15 +182,11 @@ public class StateUI {
      * @return BitMap if Success / null if you never change ImageView preview.
      */
     public Bitmap getValueBitmap(Object objectName) {
-        try {
-            String str = pref.getString(clss, null);
-            java.lang.reflect.Type type = new TypeToken<HashMap<String, String>>() {
-            }.getType();
-            HashMap<String, String> testHashMap2 = gson.fromJson(str, type);
-            return stringToBitMap(testHashMap2.get(String.valueOf(objectName)));
-        } catch (Exception e) {
-            return null;
-        }
+        return stringToBitMap(this.stateImageUI.getImage(String.valueOf(objectName)));
+    }
+
+    public String getValuePath(Object objectName) {
+        return this.stateImageUI.getImage(String.valueOf(objectName));
     }
 
     /**
@@ -192,6 +198,7 @@ public class StateUI {
             mEditor = pref.edit();
             mEditor.remove(clss).apply();
             mEditor.putString(clss, null).apply();
+            stateImageUI.destroyStateUIImage();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -204,6 +211,7 @@ public class StateUI {
     public void destroyStateUI() {
         mEditor = pref.edit();
         mEditor.clear().apply();
+        stateImageUI.destroyStateUIImage();
     }
 
     private String bitMapToString(Bitmap bitmap) {
