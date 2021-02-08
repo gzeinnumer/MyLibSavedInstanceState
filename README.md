@@ -231,7 +231,7 @@ public class RecyclerViewActivity extends AppCompatActivity {
             stateUI.getValueList("binding.rv", new ListStateCallBack<MyModel>() {
                 @Override
                 public Type setListModel() {
-                    // need converter for Gson, put your ModelPojo on token type
+                    // need converter for Gson, put your ModelPojo on TypeToken
                     return new TypeToken<List<MyModel>>(){}.getType();
                 }
 
