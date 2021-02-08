@@ -52,8 +52,8 @@ dependencies {
 # Feature List
 - [x] [Activity StateUI](#activity-stateui)
 - [x] [Fragment StateUI](#fragment-stateui)
-- [x] [Image StateUI](#image-stateui)
 - [x] [Recyclerview StateUI](#recyclerview-stateui)
+- [x] [Image StateUI](#image-stateui)
 - [x] [Variable With StateUI](#variable-with-stateui)
 - [x] [Clear Value StateUI onStop](#clear-value-stateui-onstop)
 - [x] [Clear All StateUI](#clear-all-stateui)
@@ -201,53 +201,6 @@ Preview:
 |**(Before)** Data lost in `onBackPressed()`|**(Before)** Data lost in `onDestroy()`|**(After)** Data keep in `onBackPressed()`|**(After)** Data keep in `onDestroy()`|
 
 #
-### Image StateUI
-
-You can save `Bitmap` from your `ImageView`. Use function `addView()` to set value and `getValueBitmap()` to get value.
-```java
-public class ImageActivity extends AppCompatActivity {
-
-    private StateUI stateUI;
-
-    ...
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        try {
-            stateUI.addView("binding.img", (BitmapDrawable) binding.img.getDrawable());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        stateUI.saveState();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (stateUI.getState()) {
-            Bitmap bitmap = stateUI.getValueBitmap("binding.img");
-            if (bitmap != null) {
-                binding.img.setImageBitmap(bitmap);
-            }
-        }
-    }
-
-    ...
-}
-```
-
-Here is Full Code
-[ImageActivity.java](https://github.com/gzeinnumer/MyLibSavedInstanceState/blob/master/app/src/main/java/com/gzeinnumer/mylibsavedinstancestate/image/ImageActivity.java)
- & [activity_image.xml](https://github.com/gzeinnumer/MyLibSavedInstanceState/blob/master/app/src/main/res/layout/activity_image.xml)
-
-Preview:
-
-|![](https://github.com/gzeinnumer/MyLibSavedInstanceState/blob/master/preview/example9.gif)|![](https://github.com/gzeinnumer/MyLibSavedInstanceState/blob/master/preview/example10.gif)|![](https://github.com/gzeinnumer/MyLibSavedInstanceState/blob/master/preview/example11.gif)|![](https://github.com/gzeinnumer/MyLibSavedInstanceState/blob/master/preview/example12.gif)|
-|---|---|---|---|
-|**(Before)** Data lost in `onBackPressed()`|**(Before)** Data lost in `onDestroy()`|**(After)** Data keep in `onBackPressed()`|**(After)** Data keep in `onDestroy()`|
-
-#
 ### RecyclerView StateUI
 
 You can save `List` to StateUI. Use function `addViewList(KEY, ListStateReceiver<MyModel>)` to set value and `getValueList(KEY, ListStateCallBack<MyModel>)` to get value.
@@ -303,6 +256,97 @@ Preview:
 |![](https://github.com/gzeinnumer/MyLibSavedInstanceState/blob/master/preview/example13.gif)|![](https://github.com/gzeinnumer/MyLibSavedInstanceState/blob/master/preview/example14.gif)|![](https://github.com/gzeinnumer/MyLibSavedInstanceState/blob/master/preview/example15.gif)|![](https://github.com/gzeinnumer/MyLibSavedInstanceState/blob/master/preview/example16.gif)|
 |---|---|---|---|
 |**(Before)** Data lost in `onBackPressed()` |**(Before)** Data lost in `onDestroy()`|**(After)** Data keep in `onBackPressed()`|**(After)** Data keep in `onDestroy()`|
+
+#
+### Image StateUI
+
+#### Save As Bitmap
+You can save `Bitmap` from your `ImageView`. Use function `addView()` to set value and `getValueBitmap()` to get value.
+```java
+public class ImageActivity extends AppCompatActivity {
+
+    private StateUI stateUI;
+
+    ...
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        try {
+            stateUI.addViewBitmap("binding.img", (BitmapDrawable) binding.img.getDrawable());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        stateUI.saveState();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (stateUI.getState()) {
+            Bitmap bitmap = stateUI.getValueBitmap("binding.img");
+            if (bitmap != null) {
+                binding.img.setImageBitmap(bitmap);
+            }
+        }
+    }
+
+    ...
+}
+```
+
+#### Save As Path
+You can save `Bitmap` from your `ImageView`. Use function `addView()` to set value and `getValueBitmap()` to get value.
+```java
+public class ImageActivity extends AppCompatActivity {
+
+    private StateUI stateUI;
+
+    ...
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        ...
+        //take image with camera or explisit intent
+        String path = "/storage/emulated/0/ExternalFolder/Foto/JPEG_FILE_NAME.jpg";
+        stateUI.addViewPath("binding.img", path);
+
+        ...
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        stateUI.saveState();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (stateUI.getState()) {
+            String path = stateUI.getValuePath("binding.img");
+            if (path != null){
+                Glide.with(this).load(new File(path)).error(R.mipmap.ic_launcher).into(binding.img);
+            }
+        }
+    }
+
+    ...
+}
+```
+
+Here is Full Code
+[ImageActivity.java](https://github.com/gzeinnumer/MyLibSavedInstanceState/blob/master/app/src/main/java/com/gzeinnumer/mylibsavedinstancestate/image/ImageActivity.java)
+ & [activity_image.xml](https://github.com/gzeinnumer/MyLibSavedInstanceState/blob/master/app/src/main/res/layout/activity_image.xml)
+
+Preview:
+
+|![](https://github.com/gzeinnumer/MyLibSavedInstanceState/blob/master/preview/example9.gif)|![](https://github.com/gzeinnumer/MyLibSavedInstanceState/blob/master/preview/example10.gif)|![](https://github.com/gzeinnumer/MyLibSavedInstanceState/blob/master/preview/example11.gif)|![](https://github.com/gzeinnumer/MyLibSavedInstanceState/blob/master/preview/example12.gif)|
+|---|---|---|---|
+|**(Before)** Data lost in `onBackPressed()`|**(Before)** Data lost in `onDestroy()`|**(After)** Data keep in `onBackPressed()`|**(After)** Data keep in `onDestroy()`|
 
 #
 ### Variable With StateUI
