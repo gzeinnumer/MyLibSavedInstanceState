@@ -44,7 +44,6 @@ public class StateUI {
         addView(objectName, String.valueOf(value));
     }
 
-
     /**
      * Use this method in onPause() to add view that you want to keep in StateUI
      *
@@ -85,9 +84,16 @@ public class StateUI {
      *                   if you never change preview of your ImageView catch will triggered
      */
     public void addViewBitmap(Object objectName, BitmapDrawable value) throws Exception {
-        Bitmap bitmap = value.getBitmap();
-//        this.data.put(String.valueOf(objectName), bitMapToString(bitmap));
-        this.stateImageUI.setImage(String.valueOf(objectName), bitMapToString(bitmap));
+        if (!isClear) {
+            Bitmap bitmap = value.getBitmap();
+            this.stateImageUI.setImage(String.valueOf(objectName), bitMapToString(bitmap));
+        }
+    }
+
+    public void addViewPath(Object objectName, String value) {
+        if (!isClear) {
+            this.stateImageUI.setImage(String.valueOf(objectName), value);
+        }
     }
 
     /**
@@ -176,16 +182,11 @@ public class StateUI {
      * @return BitMap if Success / null if you never change ImageView preview.
      */
     public Bitmap getValueBitmap(Object objectName) {
-//        try {
-//            String str = pref.getString(clss, null);
-//            java.lang.reflect.Type type = new TypeToken<HashMap<String, String>>() {
-//            }.getType();
-//            HashMap<String, String> testHashMap2 = gson.fromJson(str, type);
-//            return stringToBitMap(testHashMap2.get(String.valueOf(objectName)));
-//        } catch (Exception e) {
-//            return null;
-//        }
         return stringToBitMap(this.stateImageUI.getImage(String.valueOf(objectName)));
+    }
+
+    public String getValuePath(Object objectName) {
+        return this.stateImageUI.getImage(String.valueOf(objectName));
     }
 
     /**
