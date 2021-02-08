@@ -298,7 +298,7 @@ public class ImageActivity extends AppCompatActivity {
 #### Save As Path
 You can save `Path` from your `ImageView`. Use function `addViewPath()` to set value and `getValuePath()` to get value.
 
-**Required Permission Storage**
+**Note :** This method Required `Permission Storage` to read file
 ```java
 public class ImageActivity extends AppCompatActivity {
 
