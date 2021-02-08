@@ -261,7 +261,7 @@ Preview:
 ### Image StateUI
 
 #### Save As Bitmap
-You can save `Bitmap` from your `ImageView`. Use function `addView()` to set value and `getValueBitmap()` to get value.
+You can save `Bitmap` from your `ImageView`. Use function `addViewBitmap()` to set value and `getValueBitmap()` to get value.
 ```java
 public class ImageActivity extends AppCompatActivity {
 
@@ -296,7 +296,9 @@ public class ImageActivity extends AppCompatActivity {
 ```
 
 #### Save As Path
-You can save `Bitmap` from your `ImageView`. Use function `addView()` to set value and `getValueBitmap()` to get value.
+You can save `Path` from your `ImageView`. Use function `addViewPath()` to set value and `getValuePath()` to get value.
+
+**Required Permission Storage**
 ```java
 public class ImageActivity extends AppCompatActivity {
 
@@ -306,9 +308,9 @@ public class ImageActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
 
         ...
+
         //take image with camera or explisit intent
         String path = "/storage/emulated/0/ExternalFolder/Foto/JPEG_FILE_NAME.jpg";
         stateUI.addViewPath("binding.img", path);

@@ -5,13 +5,10 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
-import com.gzeinnumer.gzndirectory.helper.FGPermission;
 import com.gzeinnumer.mylibsavedinstancestate.MenuActivity;
 import com.gzeinnumer.mylibsavedinstancestate.R;
 import com.gzeinnumer.mylibsavedinstancestate.StateUI;
@@ -20,15 +17,7 @@ import com.gzeinnumer.mylibsavedinstancestate.databinding.ActivityImageBinding;
 import com.gzeinnumer.mylibsavedinstancestate.utils.CustomToastDown;
 import com.gzeinnumer.mylibsavedinstancestate.utils.CustomToastUp;
 
-import rebus.permissionutils.PermissionEnum;
-import rebus.permissionutils.PermissionManager;
-
 public class ImageActivity extends AppCompatActivity {
-
-    PermissionEnum[] permissions = new PermissionEnum[]{
-            PermissionEnum.WRITE_EXTERNAL_STORAGE,
-            PermissionEnum.READ_EXTERNAL_STORAGE
-    };
 
     private StateUI stateUI;
     private ActivityImageBinding binding;
@@ -39,18 +28,14 @@ public class ImageActivity extends AppCompatActivity {
         binding = ActivityImageBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        FGPermission.checkPermissions(this, permissions);
-
-        checkPermissions();
-
         stateUI = StateUIBuilder.Build(ImageActivity.class, getApplicationContext());
-//
-//        binding.btnLoadImage.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                loadImage();
-//            }
-//        });
+
+        binding.btnLoadImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadImage();
+            }
+        });
 
         binding.btnClearBack.setOnClickListener(v -> {
             stateUI.clearState();
@@ -63,41 +48,9 @@ public class ImageActivity extends AppCompatActivity {
         });
     }
 
-    private void checkPermissions() {
-        boolean isAllGranted = FGPermission.getPermissionResult(this, permissions);
-
-        if (isAllGranted) {
-            onSuccessCheckPermitions();
-        } else {
-            Toast.makeText(this, "Permission Required", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    private void onSuccessCheckPermitions() {
-
-
-        binding.btnLoadImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                loadImage();
-            }
-        });
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        PermissionManager.handleResult(this, requestCode, permissions, grantResults);
-
-        checkPermissions();
-    }
-
     private void loadImage() {
         String imgUrl = "https://avatars3.githubusercontent.com/u/45892408?s=460&u=94158c6479290600dcc39bc0a52c74e4971320fc&v=4";
         Glide.with(this).load(imgUrl).error(R.mipmap.ic_launcher).into(binding.img);
-
-//        String path = "/storage/emulated/0/DistributorAdvisor/Foto/JPEG_null_8033897093211844690.jpg";
-//        stateUI.addViewPath("binding.img2", path);
     }
 
     @Override
@@ -123,11 +76,6 @@ public class ImageActivity extends AppCompatActivity {
             if (bitmap != null) {
                 binding.img.setImageBitmap(bitmap);
             }
-
-//            String path = stateUI.getValuePath("binding.img2");
-//            if (path != null){
-//                Glide.with(this).load(new File(path)).error(R.mipmap.ic_launcher).into(binding.img);
-//            }
         }
     }
 
